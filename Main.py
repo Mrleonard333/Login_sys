@@ -1,17 +1,22 @@
 from time import sleep
 
 count = 0
-log = None
+log = False
+exi = False
 u = s = None
 
 # Importa o arquivo de contas
-file = open('Logs.txt', 'r+')
+try:
+    file = open('Logs.txt', 'r+')
+except:
+    file = open('Login_sys/Logs.txt', 'r+')
 contas = file.readlines()
 
 # Introdução
 print('Ola tester')
 sleep(0.5)
 print('Seja bem vindo ao meu sistema de login\n')
+
 sleep(1)
 c = str(input('Ja possui uma conta? [S/N] '))
 sleep(1)
@@ -27,19 +32,23 @@ if c.lower() == 'n' or c.lower() == 'não' or c.lower() == 'nao':
     # Verifica o usuario e senha
     for c in contas:
         if login == c.replace('\n', ''):
-            print('[*Esta conta ja existe*]')
+            exi = True
+            break
 
-        else:
-            print('[Cadastrado]')
-            file.write(f'{login}\n')
+    # Conclusão
+    if not exi:
+        print('[Cadastrado]')
+        file.write(f'{login}\n')
+
+    else:
+        print('[*Esta conta ja existe*]')
 
 # Se tem conta
 if c.lower() == 's' or c.lower() == 'sim' or c.lower() == 'claro':
     print('\nEntão...')
-
-    sleep(0.8)
-
+    sleep(0.6)
     print('Por favor identifique-se')
+    sleep(0.5)
     u = str(input('Usuario: '))
     s = str(input('Senha: '))
     login = f'{u} {s}'
@@ -49,12 +58,36 @@ if c.lower() == 's' or c.lower() == 'sim' or c.lower() == 'claro':
         # Faz a comparação
         if login == c.replace('\n', ''):
             log = True
-        else:
-            log = False
+            break
 
-# Conclusão
-if log:
-    print(f'[Login concluido]')
+    if log:
+        print(f'\n[Login concluido]\n')
+        sleep(1)
+        c = str(input('Deseja mudar sua senha? [S/N] '))
+        sleep(0.5)
+        if c.lower() == 's' or c.lower() == 'sim' or c.lower() == 'claro':
 
-elif not log:
-    print('[*Usuario ou senha incorretos*]')
+            ns = str(input('Senha nova: '))
+            cont = 0
+
+            for c in contas:
+                if login == c.replace('\n', ''):
+                    contas[cont] = f'{u} {ns}\n'
+
+            try:
+                with open('Login_sys/Logs.txt', 'w') as file:
+                    file.write('')
+
+                with open('Login_sys/Logs.txt', 'r+') as file:
+                    for c in contas:
+                        file.write(c)
+            except:
+                with open('Logs.txt', 'w') as file:
+                    file.write('')
+
+                with open('Logs.txt', 'r+') as file:
+                    for c in contas:
+                        file.write(c)
+
+    if not log:
+        print(f'[Usuario ou senha incorretos]\n')
