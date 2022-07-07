@@ -21,7 +21,7 @@ sleep(1)
 c = str(input('Ja possui uma conta? [S/N] '))
 sleep(1)
 
-# Se não possui uma conta
+# [Se não possui uma conta]
 if c.lower() == 'n' or c.lower() == 'não' or c.lower() == 'nao':
     print('\ncadastre-se por favor')
     sleep(1)
@@ -35,15 +35,16 @@ if c.lower() == 'n' or c.lower() == 'não' or c.lower() == 'nao':
             exi = True
             break
 
-    # Conclusão
+    # Se a conta não existe
     if not exi:
         print('[Cadastrado]')
         file.write(f'{login}\n')
 
+    # Se a conta existe
     else:
         print('[*Esta conta ja existe*]')
 
-# Se tem conta
+# [Se tem conta]
 if c.lower() == 's' or c.lower() == 'sim' or c.lower() == 'claro':
     print('\nEntão...')
     sleep(0.6)
@@ -53,13 +54,14 @@ if c.lower() == 's' or c.lower() == 'sim' or c.lower() == 'claro':
     s = str(input('Senha: '))
     login = f'{u} {s}'
 
-    # Enquanto o contador for menor do que a lista
+    # Examinando a lista
     for c in contas:
         # Faz a comparação
         if login == c.replace('\n', ''):
             log = True
             break
 
+    # Se a conta existe
     if log:
         print(f'\n[Login concluido]\n')
         sleep(1)
@@ -73,6 +75,9 @@ if c.lower() == 's' or c.lower() == 'sim' or c.lower() == 'claro':
             for c in contas:
                 if login == c.replace('\n', ''):
                     contas[cont] = f'{u} {ns}\n'
+                    break
+
+                cont += 1
 
             try:
                 with open('Login_sys/Logs.txt', 'w') as file:
@@ -89,5 +94,6 @@ if c.lower() == 's' or c.lower() == 'sim' or c.lower() == 'claro':
                     for c in contas:
                         file.write(c)
 
+    # Se a conta não existe
     if not log:
         print(f'[Usuario ou senha incorretos]\n')
