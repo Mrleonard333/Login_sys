@@ -4,51 +4,57 @@ count = 0
 log = None
 u = s = None
 
+# Importa o arquivo de contas
 file = open('Logs.txt', 'r+')
 contas = file.readlines()
 
 # Introdução
-print('Ola tester!')
+print('Ola tester')
+sleep(0.5)
+print('Seja bem vindo ao meu sistema de login\n')
 sleep(1)
 c = str(input('Ja possui uma conta? [S/N] '))
 sleep(1)
 
-# Se não possiu uma conta
-if c.lower() == 'n':
-    print('cadastre-se por favor\n')
-    sleep(1)
-    u = str(input('Usuario: '))
-    s = str(input('Senha: '))
-    login = f'{u} {s}\n'
-
-    # Anota no arquivo
-    file.write(login)
-
-# Se tem conta
-if c.lower() == 's':
-    print('Por favor identifique-se\n')
+# Se não possui uma conta
+if c.lower() == 'n' or c.lower() == 'não' or c.lower() == 'nao':
+    print('\ncadastre-se por favor')
     sleep(1)
     u = str(input('Usuario: '))
     s = str(input('Senha: '))
     login = f'{u} {s}'
 
-    # Enquanto o contador for menor do que a list
-    while count < len(contas):
+    # Verifica o usuario e senha
+    for c in contas:
+        if login == c.replace('\n', ''):
+            print('[*Esta conta ja existe*]')
+
+        else:
+            print('[Cadastrado]')
+            file.write(f'{login}\n')
+
+# Se tem conta
+if c.lower() == 's' or c.lower() == 'sim' or c.lower() == 'claro':
+    print('\nEntão...')
+
+    sleep(0.8)
+
+    print('Por favor identifique-se')
+    u = str(input('Usuario: '))
+    s = str(input('Senha: '))
+    login = f'{u} {s}'
+
+    # Enquanto o contador for menor do que a lista
+    for c in contas:
         # Faz a comparação
-        if login == contas[count].replace('\n', ''):
+        if login == c.replace('\n', ''):
             log = True
-            break
         else:
             log = False
-
-        count += 1
 
 # Conclusão
 if log:
     print(f'[Login concluido]')
-
-elif log is None:
-    print('[Cadastrado]')
 
 elif not log:
     print('[*Usuario ou senha incorretos*]')
