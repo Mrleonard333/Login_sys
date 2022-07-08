@@ -19,7 +19,7 @@ print('Seja bem vindo ao meu sistema de login\n')
 
 sleep(1)
 c = str(input('Ja possui uma conta? [S/N] '))
-sleep(1)
+sleep(0.7)
 
 # [Se não possui uma conta]
 if c.lower() == 'n' or c.lower() == 'não' or c.lower() == 'nao':
